@@ -30,6 +30,8 @@ app.post('/characters/insert', async (req, res) => {
     console.log(devol);
 })
 
+app.put('/characters/update')
+
 // PELISERIE
 
 app.get('/movies', async (req, res) => {
