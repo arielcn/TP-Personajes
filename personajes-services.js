@@ -32,11 +32,11 @@ export default class PersonajeService {
         try {
             let pool = await sql.connect(config);
             let result = await pool.request()
-                .input('pImagen'     , sql.VarChar , personaje?.imagen ?? "")
-                .input('pNombre', sql.VarChar   , personaje?.nombre ?? "")
+                .input('pImagen'     , sql.NVarChar , personaje?.imagen ?? "")
+                .input('pNombre', sql.NVarChar   , personaje?.nombre ?? "")
                 .input('pEdad'    , sql.Int , personaje?.edad ?? 0)
                 .input('pPeso', sql.Int , personaje?.peso ?? 0)
-                .input('pHistoria', sql.VarChar , personaje?.historia ?? "")
+                .input('pHistoria', sql.NVarChar , personaje?.historia ?? "")
                 .query(`INSERT INTO Personajes (Imagen, Nombre, Edad, Peso, Historia) VALUES (@pImagen, @pNombre, @pEdad, @pPeso, @pHistoria)`);
             rowsAffected = result.rowsAffected;
         } catch (error) {
@@ -52,16 +52,32 @@ export default class PersonajeService {
         try {
             let pool = await sql.connect(config);
             let result = await pool.request()
-                .input('pImagen'     , sql.VarChar , personaje?.imagen ?? null)
-                .input('pNombre', sql.VarChar   , personaje?.nombre ?? null)
+                .input('Id', sql.Int, Id)
+                .input('pImagen'     , sql.NVarChar , personaje?.imagen ?? null)
+                .input('pNombre', sql.NVarChar   , personaje?.nombre ?? null)
                 .input('pEdad'    , sql.Int , personaje?.edad ?? null)
                 .input('pPeso', sql.Int , personaje?.peso ?? null)
-                .input('pHistoria', sql.VarChar , personaje?.historia ?? null)
+                .input('pHistoria', sql.NVarChar , personaje?.historia ?? null)
                 .query(`UPDATE Personaje SET Imagen=@pImagen, Nombre=@pNombre, Edad=@pEdad, Peso=@pPeso, Historia=@pHistoria) WHERE Id=@pId`);
             rowsAffected = result.rowsAffected;
         } catch (error) {
             console.log(error);
         }
         return rowsAffected;
+    }
+
+    deletePersonaje = async (id) => {
+        let returnEntity = null;
+        console.log('Estoy en: PersonajeService.delete(id)');
+        try {
+            let pool   = await sql.connect(config);
+            let result = await pool.request()
+                .input('pId', sql.Int, id)
+                .query('DELETE * FROM PERSONAJES WHERE Id = @pId');
+            returnEntity = result.recordsets[0][0];
+        } catch (error) {
+            console.log(error);
+        }
+        return returnEntity;
     }
 }

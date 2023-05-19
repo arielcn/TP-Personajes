@@ -11,8 +11,12 @@ app.use(express.json());
 //CHARACTERS
 
 app.get('/characters', async (req, res) => {
-    let devol = await PersonajeService.getPersonaje();
-    res.send(devol);
+    try{
+        let devol = await PersonajeService.getPersonaje();
+        res.send(devol);
+    }catch(error){
+        console.error(error);
+    }
 })
 
 app.get('/characters/:id', async (req, res) => {
@@ -30,7 +34,20 @@ app.post('/characters/insert', async (req, res) => {
     console.log(devol);
 })
 
-app.put('/characters/update')
+app.put('/characters/update'), async (req, res) => {
+    try{
+        await PersonajeService.update(req.body)
+        res.status(200).json({message: 'Personaje updated'});
+    }catch(error){
+        console.error(error);
+        res.status(500).json({error: 'Fallo el update'});
+    }
+}
+
+app.delete('/characters/:id'), async (req, res) => {
+    let svc = new PersonajeService();
+    res.send(await svc.deletePersonaje(req.params.id));
+}
 
 // PELISERIE
 
