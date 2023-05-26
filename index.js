@@ -20,21 +20,17 @@ app.get('/characters', async (req, res) => {
 })
 
 app.get('/characters/:id', async (req, res) => {
-    let svc = new PersonajeService();
-    res.send(await svc.getById(req.params.id));
+    res.send(await PersonajeService.getPersonajeById(req.params.id));
 })
 
 app.post('/characters/insert', async (req, res) => {
-    let svc = new PersonajeService();
     let nuevoPersonaje = new Personaje();
-
     nuevoPersonaje.imagen = 'https://static.wikia.nocookie.net/disney/images/6/6d/BillCipher.png/revision/latest/scale-to-width-down/350?cb=20160304120312&path-prefix=es'
     nuevoPersonaje.nombre = 'Bill Cipher'
-    let devol = res.send(await svc.insertPersonaje(nuevoPersonaje));
-    console.log(devol);
+    res.send(await PersonajeService.insertPersonaje(nuevoPersonaje));
 })
 
-app.put('/characters/update'), async (req, res) => {
+app.put('/characters/:id'), async (req, res) => {
     try{
         await PersonajeService.update(req.body)
         res.status(200).json({message: 'Personaje updated'});
@@ -44,10 +40,10 @@ app.put('/characters/update'), async (req, res) => {
     }
 }
 
-app.delete('/characters/:id'), async (req, res) => {
-    let svc = new PersonajeService();
-    res.send(await svc.deletePersonaje(req.params.id));
-}
+app.delete('/characters/:id', async (req, res) => {
+    console.log("pepe")
+    res.send(await PersonajeService.deletePersonaje(req.params.id));
+})
 
 // PELISERIE
 

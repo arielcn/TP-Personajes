@@ -8,7 +8,7 @@ export default class PersonajeService {
         return result.recordsets[0];
     }
 
-    getById = async (id) => {
+    static getPersonajeById = async (id) => {
         let returnEntity = null;
         console.log('Estoy en: PersonajeService.getById(id)');
         try {
@@ -23,7 +23,7 @@ export default class PersonajeService {
         return returnEntity;
     }
 
-    insertPersonaje = async (personaje) => {
+    static insertPersonaje = async (personaje) => {
         let rowsAffected = 0;
         console.log('Estoy en: insert(personaje)');
 
@@ -45,7 +45,7 @@ export default class PersonajeService {
         return rowsAffected;
     }
 
-    updatePersonaje = async (personaje) => {
+    static updatePersonaje = async (personaje) => {
         let rowsAffected = 0;
         console.log('Estoy en: update(personaje)');
 
@@ -66,7 +66,7 @@ export default class PersonajeService {
         return rowsAffected;
     }
 
-    deletePersonaje = async (id) => {
+    static deletePersonaje = async (id) => {
         let returnEntity = null;
         console.log('Estoy en: PersonajeService.delete(id)');
         try {

@@ -7,8 +7,16 @@ const config = {
     database: process.env.DB_DATABASE,
     options : {
         trustServerCertificate: true,
-        trustedConnection: true  
-    }
+        trustedConnection: true,
+        encrypt: true,
+        useUTC: true,  
+    },
+    port: 1433,
+    pool: {
+        max: 10,
+        min: 0,
+        idleTimeoutMillis: 60000
+        }
 }
 
 export default config;
