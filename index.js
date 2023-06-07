@@ -52,6 +52,34 @@ app.get('/movies', async (req, res) => {
     res.send(devol);
 })
 
+app.get('/movies/:id', async (req, res) => {
+    res.send(await PeliYSerie.getPeliSerieById(req.params.id));
+})
+
+app.post('/movies/insert', async (req, res) => {
+    let nuevaPeliSerie = new PeliYSerie();
+    nuevaPeliSerie.imagen = 'https://es.web.img3.acsta.net/c_310_420/pictures/14/05/28/11/24/435900.jpg'
+    nuevaPeliSerie.titulo = 'Cars'
+    res.send(await PeliYSerie.insert(nuevaPeliSerie));
+})
+
+app.put('/movies/:id'), async (req, res) => {
+    try{
+        await PeliYSerie.updatePeliSerie(req.body)
+        res.status(200).json({message: 'PeliSerie updated'});
+    }catch(error){
+        console.error(error);
+        res.status(500).json({error: 'Fallo el update'});
+    }
+}
+
+app.delete('/movies/:id', async (req, res) => {
+    console.log("pepe")
+    res.send(await PeliYSerie.deletePeliSerie(req.params.id));
+})
+
+// Levantar el puerto
+
 app.listen(port, () =>{
     console.log(`Example app listening on port ${port}`)
 })

@@ -1,0 +1,14 @@
+USE [master]
+GO
+CREATE LOGIN [Disney] WITH PASSWORD=N'Disney', DEFAULT_DATABASE=[PersonajesTP], CHECK_EXPIRATION=OFF,
+CHECK_POLICY=OFF
+GO
+
+USE [PersonajesTP]
+GO
+CREATE USER [Disney] FOR LOGIN [Disney]
+GO
+USE [PersonajesTP]
+GO
+ALTER ROLE [db_owner] ADD MEMBER [Disney]
+GO
