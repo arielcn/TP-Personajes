@@ -8,7 +8,7 @@ export default class PeliYSerieService {
         return result.recordsets[0];
     }
 
-    static getPeliserieById = async (id) => {
+    static getPeliSerieById = async (id) => {
         let returnEntity = null;
         console.log('Estoy en: peliserie.getById(id)');
         try {
@@ -21,5 +21,26 @@ export default class PeliYSerieService {
             console.log(error);
         }
         return returnEntity;
+    }
+
+    static insertPeliSerie = async (PeliYSerie) => {
+        let rowsAffected = 0;
+        console.log('Estoy en: insert(peliserie)');
+
+        console.log(PeliYSerie);
+
+        try {
+            let pool = await sql.connect(config);
+            let result = await pool.request()
+                .input('pImagen'     , sql.NVarChar , PeliYSerie?.imagen ?? "")
+                .input('pTitulo', sql.NVarChar   , PeliYSerie?.nombre ?? "")
+                .input('pFechaCreacion'    , sql.Date , PeliYSerie?.edad ?? 0)
+                .input('pCalificacion', sql.Int , PeliYSerie?.peso ?? 0)
+                .query(`INSERT INTO PeliculasYSeries (Imagen, Titulo, FechaCreacion, calificacion) VALUES (@pImagen, @pTitulo, @pFechaCreacion, @pCalificacion)`);
+            rowsAffected = result.rowsAffected;
+        } catch (error) {
+            console.log(error);
+        }
+        return rowsAffected;
     }
 }
