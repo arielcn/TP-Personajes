@@ -80,4 +80,18 @@ export default class PersonajeService {
         }
         return returnEntity;
     }
+
+    static getPersonajeByNombre = async (nombre) => {
+        let returnEntity = null;
+        console.log('Estoy en: PersonajeService.searchByNombre')
+        try {
+            let pool = await sql.connect(config);
+            let result = await pool.request()
+                .input('pNombre', sql.NVarChar, nombre)
+                .query('SELECT * FROM PELICULAS INNER JOIN ASOCIADOS ON fkPeliculaYSerie=PELICULAS.Id');
+        } catch (error) {
+            console.log(error);
+        }
+        return returnEntity;
+    }
 }

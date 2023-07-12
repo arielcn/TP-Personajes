@@ -79,25 +79,25 @@ app.delete('/movies/:id', async (req, res) => {
 //  Búsqueda de Personajes
 
 app.get('/characters?name=nombre', async (req, res) => {
-    res.send(await PersonajeService.getPersonajeBySearch(req.params.id))
+    res.send(await PersonajeService.getPersonajeByNombre(req.params.nombre))
 })
 
 app.get('/characters?age=edad', async (req, res) => {
-    res.send(await PersonajeService.getPersonajeBySearch(req.params.id))
+    res.send(await PersonajeService.getPersonajeByEdad(req.params.edad))
 })
 
 app.get('/characters?movies=idMovie', async (req, res) => {
-    res.send(await PersonajeService.getPersonajeBySearch(req.params.id))
+    res.send(await PersonajeService.getPeliSerieById(req.params.id))
 })
 
 //  Búsqueda de PeliSerie
 
 app.get('/movies?name=nombre', async (req, res) => {
-    res.send(await PeliYSerieService.getMovieBySearch(req.params.id))
+    res.send(await PeliYSerieService.getMovieByNombre(req.params.nombre))
 })
 
 app.get('movies?order=ASC | DESC', async (req, res) => {
-    res.send(await PeliYSerieService.getMovieBySearch(req.params.id))
+    res.send(await PeliYSerieService.getMovieByOrder(req.params.id))
 })
 
 // Levantar el puerto

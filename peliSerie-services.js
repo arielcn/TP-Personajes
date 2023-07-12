@@ -15,7 +15,7 @@ export default class PeliYSerieService {
             let pool = await sql.connect(config);
             let result = await pool.request()
                 .input('pId', sql.Int, id)
-                .query('SELECT * FROM PERSONAJES WHERE Id = @pId');
+                .query('SELECT * FROM PELICULASYSERIES WHERE Id = @pId');
             returnEntity = result.recordsets[0][0];
         } catch (error) {
             console.log(error);
