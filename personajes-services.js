@@ -58,7 +58,7 @@ export default class PersonajeService {
                 .input('pEdad'    , sql.Int , personaje?.edad ?? null)
                 .input('pPeso', sql.Int , personaje?.peso ?? null)
                 .input('pHistoria', sql.NVarChar , personaje?.historia ?? null)
-                .query(`UPDATE Personaje SET Imagen=@pImagen, Nombre=@pNombre, Edad=@pEdad, Peso=@pPeso, Historia=@pHistoria) WHERE Id=@pId`);
+                .query(`UPDATE Personajes SET Imagen=@pImagen, Nombre=@pNombre, Edad=@pEdad, Peso=@pPeso, Historia=@pHistoria WHERE Id=@pId`);
             rowsAffected = result.rowsAffected;
         } catch (error) {
             console.log(error);
@@ -88,8 +88,42 @@ export default class PersonajeService {
             let pool = await sql.connect(config);
             let result = await pool.request()
                 .input('pNombre', sql.NVarChar, nombre)
-                .query('SELECT * FROM PELICULAS INNER JOIN ASOCIADOS ON fkPeliculaYSerie=PELICULAS.Id');
-        } catch (error) {
+                .query('SELECT * FROM PeliculasYSeries INNER JOIN ASOCIADOS ON ASOCIADOS.fkPeliculaYSerie=PeliculasYSeries.Id INNER JOIN PERSONAJES ON PERSONAJES.Id=Asociados.fkPersonaje WHERE PERSONAJES.Nombre = @pNombre');
+                returnEntity = result.recordsets[0][0];
+                console.log(returnEntity)
+            } catch (error) {
+            console.log(error);
+        }
+        return returnEntity;
+    }
+
+    static getPersonajeByEdad = async (edad) => {
+        let returnEntity = null;
+        console.log('Estoy en: PersonajeService.searchByedad')
+        try {
+            let pool = await sql.connect(config);
+            let result = await pool.request()
+                .input('pEdad', sql.Int, edad)
+                .query('SELECT * FROM PeliculasYSeries INNER JOIN ASOCIADOS ON ASOCIADOS.fkPeliculaYSerie=PeliculasYSeries.Id INNER JOIN PERSONAJES ON PERSONAJES.Id=Asociados.fkPersonaje WHERE PERSONAJES.Edad = @pEdad');
+                returnEntity = result.recordsets[0][0];
+                console.log(returnEntity)
+            } catch (error) {
+            console.log(error);
+        }
+        return returnEntity;
+    }
+
+    static getPersonajeByMovieId = async (id) => {
+        let returnEntity = null;
+        console.log('Estoy en: PersonajeService.searcByMOvieID')
+        try {
+            let pool = await sql.connect(config);
+            let result = await pool.request()
+                .input('pId', sql.Int, id)
+                .query('SELECT * FROM PeliculasYSeries INNER JOIN ASOCIADOS ON ASOCIADOS.fkPeliculaYSerie=PeliculasYSeries.Id INNER JOIN PERSONAJES ON PERSONAJES.Id=Asociados.fkPersonaje WHERE PeliculasYSeries.Id = @pId');
+                returnEntity = result.recordsets[0][0];
+                console.log(returnEntity)
+            } catch (error) {
             console.log(error);
         }
         return returnEntity;

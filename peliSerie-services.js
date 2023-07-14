@@ -78,4 +78,35 @@ export default class PeliYSerieService {
         }
         return returnEntity;
     }
+
+    static getMovieByNombre = async (titulo) => {
+        let returnEntity = null;
+        console.log('Estoy en: movie.searchByNombre')
+        try {
+            let pool = await sql.connect(config);
+            let result = await pool.request()
+                .input('pTitulo', sql.NVarChar, titulo)
+                .query('SELECT * FROM PeliculasYSeries WHERE Titulo = @pTitulo');
+                returnEntity = result.recordsets[0][0];
+                console.log(returnEntity)
+            } catch (error) {
+            console.log(error);
+        }
+        return returnEntity;
+    }
+
+    static getMovieByOrder = async (order) => {
+        let returnEntity = null;
+        console.log('Estoy en: movie.searchByOrder')
+        try {
+            let pool = await sql.connect(config);
+            let result = await pool.request()
+                .query('SELECT * FROM PeliculasYSeries ORDER BY FechaCreacion ' + order);
+                returnEntity = result.recordsets[0][0];
+                console.log(returnEntity)
+            } catch (error) {
+            console.log(error);
+        }
+        return returnEntity;
+    }
 }
